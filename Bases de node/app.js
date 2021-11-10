@@ -61,10 +61,11 @@ const argv = require('./config/yargs')
 
 const base = argv.b;
 const listar = argv.l;
+const tope = argv.h;
 
 console.log(argv)
 
-crearArchivoTabla(base, listar)
+crearArchivoTabla(base, listar , tope)
     .then( nombreArchivo => console.log(nombreArchivo, 'creado'))
     .catch( err => console.log(err));
 

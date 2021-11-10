@@ -23,13 +23,13 @@ const fs = require('fs');
 //Usando colors en consola
 const colors = require('colors');
 
-const crearArchivoTabla = async (base = 1 , listar) => {
+const crearArchivoTabla = async (base = 1 , listar , tope = 10) => {
     try {
         console.clear();
         let salida = '';
 
         
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < tope; i++) {
             salida += `${base} x ${i+1} = ${base*(i+1)} \n`
         }
         
@@ -40,7 +40,7 @@ const crearArchivoTabla = async (base = 1 , listar) => {
             console.log(salida);
         }
 
-        fs.writeFileSync(`tabla-del-${base}.txt`, salida )
+        fs.writeFileSync(`./output/tabla-del-${base}.txt`, salida )
 
         return `tabla-del-${base}.txt creada`; //HAY QUE PONERLE EL RETURN
     } catch (error) {
