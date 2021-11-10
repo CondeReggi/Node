@@ -20,20 +20,25 @@ const fs = require('fs');
 
 //transformando en una funcion asincrona
 
-const crearArchivoTabla = async (base = 1) => {
+//Usando colors en consola
+const colors = require('colors');
+
+const crearArchivoTabla = async (base = 1 , listar) => {
     try {
         console.clear();
         let salida = '';
 
-        console.log('=========================');
-        console.log(`=======TABLA DEL ${base}=======`);
-        console.log('=========================');
-
+        
         for (let i = 0; i < 10; i++) {
             salida += `${base} x ${i+1} = ${base*(i+1)} \n`
         }
-
-        console.log(salida);
+        
+        if (listar) {
+            console.log('========================='.rainbow);
+            console.log(`=======TABLA DEL ${base}=======`.rainbow);
+            console.log('========================='.rainbow);
+            console.log(salida);
+        }
 
         fs.writeFileSync(`tabla-del-${base}.txt`, salida )
 

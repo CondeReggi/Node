@@ -29,20 +29,43 @@
 
 //Creando la exportacion pero en forma de promesa
 
-const { crearArchivoTabla } = require('./helpers/multiplicar')
+// const { crearArchivoTabla } = require('./helpers/multiplicar')
+// const argv = require('yargs/yargs').argv;
 
-console.log(process.argv)
+// console.log(process.argv)
 
 //CON EL COMANDO EN CONSOLA AL EJECUTAR EL APP.JS Y UN --BASE=5;
 
 //Por posicion hay muchos incovenientes
-const [ , , arg3 = 'base=5'] = process.argv;
-const [ , base = 5 ] = arg3.split('=')
+// const [ , , arg3 = 'base=5'] = process.argv;
+// const [ , base = 5 ] = arg3.split('=')
 
-console.log(base)
+// console.log(base)
 
 // const base = 3;
 
-crearArchivoTabla(base)
+// crearArchivoTabla(base)
+//     .then( nombreArchivo => console.log(nombreArchivo, 'creado'))
+//     .catch( err => console.log(err));
+
+//Primer acercamiento a Yargs
+
+const { crearArchivoTabla } = require('./helpers/multiplicar')
+
+const argv = require('./config/yargs')
+
+// console.log(process.argv)
+// console.log(argv)
+
+// console.log('base de yargs: ', argv.base)
+
+const base = argv.b;
+const listar = argv.l;
+
+console.log(argv)
+
+crearArchivoTabla(base, listar)
     .then( nombreArchivo => console.log(nombreArchivo, 'creado'))
     .catch( err => console.log(err));
+
+//Usar Yargs para recibir parametros por consola https://yargs.js.org/docs/

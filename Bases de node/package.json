@@ -1,0 +1,16 @@
+{
+  "name": "bases-de-node",
+  "version": "1.0.0",
+  "description": "bases de node curso udemy",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "base3": "node app --base=3"
+  },
+  "author": "Lucas Conde",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "yargs": "^17.2.1"
+  }
+}
