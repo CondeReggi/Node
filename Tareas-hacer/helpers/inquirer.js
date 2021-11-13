@@ -65,7 +65,27 @@ const pause = async () => {
   return opcionpausa;
 };
 
+const leerInput = async (message) => {
+  const question = [
+    {
+      type: 'input',
+      name: 'desc',
+      message,
+      validate(value) {
+        if ( value.length === 0) {
+          return 'Por favor ingrese un valor'
+        }
+        return true;
+      }
+    }
+  ];
+
+  const { desc } = await inquirer.prompt(question);
+  return desc;
+}
+
 module.exports = {
   inquirerMenu,
   pause,
+  leerInput
 };

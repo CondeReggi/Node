@@ -1,0 +1,17 @@
+[
+    {
+        "id": "e98bb89a-efce-4708-9584-535611a6ba89",
+        "desc": "Recolectar todo",
+        "completadoEn": "Hola"
+    },
+    {
+        "id": "e78fd9fe-2027-4279-b3c9-0689b44c06f6",
+        "desc": "Funciona",
+        "completadoEn": null
+    },
+    {
+        "id": "5862b519-fb17-4c5b-90c2-125180485882",
+        "desc": "Hola",
+        "completadoEn": null
+    }
+]
