@@ -1,17 +1,1 @@
-[
-    {
-        "id": "e98bb89a-efce-4708-9584-535611a6ba89",
-        "desc": "Recolectar todo",
-        "completadoEn": "Hola"
-    },
-    {
-        "id": "e78fd9fe-2027-4279-b3c9-0689b44c06f6",
-        "desc": "Funciona",
-        "completadoEn": null
-    },
-    {
-        "id": "5862b519-fb17-4c5b-90c2-125180485882",
-        "desc": "Hola",
-        "completadoEn": null
-    }
-]
+[{"id":"e78fd9fe-2027-4279-b3c9-0689b44c06f6","desc":"Funciona","completadoEn":"2021-11-13T14:58:48.635Z"},{"id":"3debc6f8-e3f7-45b1-ac94-b061e4701006","desc":"Pepiño","completadoEn":"alguiño"},{"id":"672e7f22-f329-4d01-ba06-0ba17118593c","desc":"Bueeeeeeeenas","completadoEn":null}]
