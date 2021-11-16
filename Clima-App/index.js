@@ -1,7 +1,10 @@
 // console.log("Hola")
-
-const { leerInput, inquirerMenu, pause } = require("./helpers/inquirer");
+require('dotenv').config()
+const { leerInput, inquirerMenu, pause, listarLugares } = require("./helpers/inquirer");
 const Busquedas = require("./models/busquedas");
+
+
+
 
 const main = async () => {
     
@@ -16,29 +19,37 @@ const main = async () => {
                 //Mostrar mensaje
                 const lugar = await leerInput('Ciudad: ');
                 
-                await busquedas.ciudad(lugar)
-
                 //Buscar los lugares
+                const lugares = await busquedas.ciudad(lugar)
 
                 //Seleccionar Lugar
+                const id = await listarLugares(lugares)
+                if (id == '0') continue;
+                
+                const lugarSel = lugares.find( lugar => lugar.id === id )
+
+                //Guardar en DB
+                busquedas.agregarHistorial( lugarSel.nombre )
 
                 //Clima
+                const clima = await busquedas.climaLugar( lugarSel.latitud , lugarSel.longitud );
 
                 //Mostrar resultados
+                console.clear();
                 console.log('\n Informacion de la ciudad \n'.green)
-                console.log('Ciudad: ', );
-                console.log('Latitud: ', );
-                console.log('Longitud: ', );
-                console.log('Temperatura: ', );
-                console.log('Minima: ', );
-                console.log('Maxima: ', );
-
-                console.log("Informacion de la ciudad ciudad")
+                console.log('Ciudad: ', lugarSel.nombre );
+                console.log('Latitud: ', lugarSel.latitud);
+                console.log('Longitud: ', lugarSel.longitud);
+                console.log('Descripcion: ', clima.desc );
+                console.log('Temperatura: ', clima.temp );
+                console.log('Minima: ', clima.min );
+                console.log('Maxima: ', clima.max);
             break;
             case 2:
-                console.log("Ver historial")
-            break;
-            default:
+                busquedas.historialCapitalizado.forEach( ( lugar , i ) => {
+                    const idx = `${i+1}.`.green;
+                    console.log( `${idx} ${lugar}`)
+                })
             break;
         }
 
