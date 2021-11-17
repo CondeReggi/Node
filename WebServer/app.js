@@ -1,37 +1,22 @@
-const http = require('http');
+const express = require('express')
+const app = express()
+const port = 8080;
 
-http.createServer( (req, res) => {
+app.use( express.static('public') )
 
-    res.writeHead( 200 , { 'Content-Type': 'text/plain' } )
+// Tambien podriamos hacer una carpeta en public con cada ruta y su index asociado dentro, eso tambien solucionaria el problema
+// Pero esta opcion generaria que las rutas de las fotos y todo cambie por lo que no es una buena alternativa, es mejor hacer los get necesarios
 
-    const persona = {
-        id: 1,
-        nombre: 'Lucas Conde'
-    }
-
-    // res.write( persona ) // No funciona porque persona es un objeto y el content-type es texto plano
-    res.write( JSON.stringify( persona ) ) //Si funciona ahora
-
-    // res.writeHead( 200 , { 'Content-Type': 'application/json' } )
-
-    res.setHeader('Content-Disposition','attachment; filename=lista.csv');
-    res.writeHead( 200 , { 'Content-Type': 'application/csv' })
-
-    // 200 = Correctamente
-    // 201 = Crear un registro / algo
-    // 404 = Page not found
-
-    // En los headers se pueden mandar tokens como variables 'hola' : 'mundo'
-    // Mas info de http ---> https://nodejs.org/api/http.html
-
-    res.write('Hola mundo');
-    res.write('id: nombre\n');
-    res.write('1: Juan\n');
-    res.write('2: Lucas\n');
-    res.write('3: Camila\n');
-
-    res.end();
+app.get('/generic', (req, res) => { //Caso default
+    res.sendFile( __dirname + '/public/generic.html')
 })
-.listen( 8080 );
 
-console.log('Escuchando el puerto: ', 8080);
+app.get('/elements', (req, res) => { //Caso default
+    res.sendFile( __dirname + '/public/elements.html')
+})
+
+app.get('*', (req, res) => { //Caso default
+    res.send('404 | Not found')
+})
+
+app.listen(port)
