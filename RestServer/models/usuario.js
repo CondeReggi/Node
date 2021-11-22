@@ -31,7 +31,7 @@ const usuarioSchema = Schema({
     rol: {
         type: String,
         required: [true],
-        enum: ['ADMIN_ROL','USER_ROL']
+        // enum: ['ADMIN_ROLE','USER_ROLE']
     },
     estado: {
         type: Boolean,
@@ -42,5 +42,13 @@ const usuarioSchema = Schema({
         default: false
     },
 })
+
+usuarioSchema.methods.toJSON = function() {
+    //De el objeto usuarioSchema, tomo la version y la contraseña (los quito)
+    //Y todo el resto de elementos del json ...user lo retorno, en consecuencia a la bd le paso el modelo sin la pass y la version
+    
+    const { __v , password, ...user } = this.toObject() 
+    return user
+}
 
 module.exports = model('Usuario' , usuarioSchema);

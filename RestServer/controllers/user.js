@@ -26,14 +26,6 @@ const userGet = (req = request, res = response) => {
 
 const userPost = async (req, res = response) => {
 
-    // Obtener todos los errors de validaciones
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()){
-        return res.status(400).json(errors) // Envio un mensaje de error con status 400 (ERRORES)
-    }
-
     // Postman ---> POST ---> Body ---> Raw ---> ( FORMAT JSON ) --->
     // {
     //     "nombre": "Mi Nombre",
@@ -46,14 +38,6 @@ const userPost = async (req, res = response) => {
 
     const { nombre, correo, password, rol } = req.body;
     const usuario = new Usuario( { nombre, correo, password, rol } );
-
-    // Verificar si mi correo existe
-    const existemail = await Usuario.findOne({ correo })  /* correo: correo */
-    if ( existemail ) {
-        return res.status(400).json({
-            msg: 'Ese correo ya esta registrado'
-        })
-    }
 
     //Encriptar la password
     const salt =  bcryptjs.genSaltSync(); //Mientras mas alto ams seguro
@@ -76,14 +60,25 @@ const userDelete = (req, res = response) => {
     })
 }
 
-const userPut = (req, res = response) => {
+const userPut = async (req, res = response) => {
 
     // const id = req.params.id;
     const { id } = req.params; // Parametros enviados desde la ruta en el router put path
+    const { _id, password , google , correo , ...resto } = req.body; // Excluyo datos que no quiero utilizar del objeto
+
+    // Validar contra base de datos
+
+    if (password) {
+        // Encriptar contraseña
+        const salt =  bcryptjs.genSaltSync(); //Mientras mas alto ams seguro
+        resto.password = bcryptjs.hashSync( password, salt )
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate( id , resto )
 
     res.json({
         msg: 'put API - Controller',
-        id
+        usuario
     })
 }
 
