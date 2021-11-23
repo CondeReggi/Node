@@ -7,8 +7,8 @@ const validarCampos = (req , res , next ) => {
     if (!errors.isEmpty()) {
         return res.status(400).json(errors); // Envio un mensaje de error con status 400 (ERRORES)
     }
-
-    next();
+    
+    next(); //Si funciona pasa al siguiente
 };
 
 module.exports = {

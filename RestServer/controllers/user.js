@@ -7,9 +7,9 @@ const Usuario = require('../models/usuario');
 const { validationResult } = require('express-validator');
 
 
-const userGet = (req = request, res = response) => {
+const userGet = async (req = request, res = response) => {
 
-    const query = req.query; // Obtengo los parametros de las query es decir ---> si yo tengo http://localhost:3000/api/usuarios?q=hola&p=pepe&apikey=156196198151
+    // const query = req.query; // Obtengo los parametros de las query es decir ---> si yo tengo http://localhost:3000/api/usuarios?q=hola&p=pepe&apikey=156196198151
 
     // query tendria la forma de 
     // "query": {
@@ -18,9 +18,25 @@ const userGet = (req = request, res = response) => {
     //     "apikey": "156196198151"
     // }
 
+    const { limite = 5 , desde = 0 } = req.query;
+
+    // const usuarios = await Usuario.find({ estado: true }) // Encontrame todos los modelos de usuario (Si hay 2 mil trae 2 mil) que tengan estado en true
+    //     .skip( Number(desde) )
+    //     .limit( parseInt(limite) );
+
+    // const total = await Usuario.countDocuments(); // Hacer esto genera que si lo de arriba tarda 2 segundos y esto 2 tambien demora 4 segundas, hay que hacer que se muestre simulataneamente
+
+    const [total , usuarios] = await Promise.all([  // Si una da error todas dan error (Ejecuta todas simulataneamente)
+        Usuario.countDocuments(),
+        Usuario.find({ estado: true }) 
+            .skip( Number(desde) )
+            .limit( parseInt(limite) )
+    ])
+
     res.json({
-        msg: 'get API - Controller',
-        query
+        total,
+        usuarios
+        // resp
     })
 }
 
@@ -54,9 +70,18 @@ const userPost = async (req, res = response) => {
     })
 }
 
-const userDelete = (req, res = response) => {
+const userDelete = async (req, res = response) => {
+
+    const { id } = req.params;
+
+    // Fisicamente lo borramos  (Perdemos integridad)
+    // const usuario = await Usuario.findByIdAndDelete( id );
+
+    const usuario = await Usuario.findByIdAndUpdate( id , { estado: false } ) // Cambbio el estado a false del id con modelo Usuario
+
     res.json({
-        msg: 'delete API - Controller'
+        id,
+        usuario
     })
 }
 
@@ -76,10 +101,7 @@ const userPut = async (req, res = response) => {
 
     const usuario = await Usuario.findByIdAndUpdate( id , resto )
 
-    res.json({
-        msg: 'put API - Controller',
-        usuario
-    })
+    res.json( usuario )
 }
 
 module.exports = {

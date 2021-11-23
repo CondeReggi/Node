@@ -23,13 +23,8 @@ const existeUserId = async ( id ) => {
     const existeUsuario = await Usuario.findById( id ) 
     if ( !existeUsuario ) {
         throw new Error(`El usuario con id: ${ id } no existe`)
-
-        // return res.status(400).json({
-        //     msg: 'Ese correo ya esta registrado'
-        // })
     }
 }
-
 
 module.exports = {
     esRolValido,
