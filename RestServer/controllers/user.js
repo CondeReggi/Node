@@ -27,7 +27,7 @@ const userGet = async (req = request, res = response) => {
     // const total = await Usuario.countDocuments(); // Hacer esto genera que si lo de arriba tarda 2 segundos y esto 2 tambien demora 4 segundas, hay que hacer que se muestre simulataneamente
 
     const [total , usuarios] = await Promise.all([  // Si una da error todas dan error (Ejecuta todas simulataneamente)
-        Usuario.countDocuments(),
+        Usuario.countDocuments({ estado: true }),
         Usuario.find({ estado: true }) 
             .skip( Number(desde) )
             .limit( parseInt(limite) )
