@@ -77,11 +77,14 @@ const userDelete = async (req, res = response) => {
     // Fisicamente lo borramos  (Perdemos integridad)
     // const usuario = await Usuario.findByIdAndDelete( id );
 
+    // const usuarioAutentificado = req.usuario;
+
     const usuario = await Usuario.findByIdAndUpdate( id , { estado: false } ) // Cambbio el estado a false del id con modelo Usuario
 
     res.json({
-        id,
+        // id
         usuario
+        // usuarioAutentificado
     })
 }
 
