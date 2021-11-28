@@ -3,10 +3,17 @@ const { check } = require('express-validator');
 const { userGet, userPost, userPut, userDelete } = require('../controllers/user');
 const { esRolValido, emailExiste, existeUserId } = require('../helpers/dbvalidators');
 
-const { validarCampos } = require('../middlewares/validar-campos');
-const { validarJwt } = require('../middlewares/validar-jwt');
-const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
+// const { validarCampos } = require('../middlewares/validar-campos');
+// const { validarJwt } = require('../middlewares/validar-jwt');
+// const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
 
+const { 
+    validarCampos,
+    validarJwt,
+    esAdminRole,
+    tieneRole
+} = require('../middlewares')
+ 
 const router = Router();
 
 router.get('/', userGet)
