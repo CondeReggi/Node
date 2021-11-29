@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const { response } = require('express');
-const { json } = require('express/lib/response');
 const { generarJWT } = require('../helpers/generar-jwt');
 const { googleVerify } = require('../helpers/google-verify');
 const Usuario = require('../models/usuario');
@@ -58,19 +57,49 @@ const googleSingIn = async ( req, res = response ) => {
     const { id_token } = req.body;
 
     try {
-        const googleUser = await googleVerify( id_token );
+        const { correo, nombre, img } = await googleVerify( id_token );
 
-        console.log(googleUser)
+        // console.log(googleUser)
+        console.log( correo, nombre, img  )
+
+        let usuario = await Usuario.findOne({ correo })
+
+        if ( !usuario ) {
+            // Tengo que crearlo
+            const data = {
+                nombre,
+                correo,
+                password: 'asdasdasd',
+                img,
+                google: true
+            }
+
+            usuario = new Usuario( data );
+            await usuario.save();
+        }
+
+        if ( !usuario.estado ) {
+            return res.status(401).json({
+                msg: 'Hable con el administrador para desbloquearlo'
+            })
+        }
+
+        const token = await generarJWT( usuario.id )
 
         res.json({
-            msg: 'Todo bien!',
-            id_token
+            usuario,
+            token
         })
 
     } catch (error) {
-        json.status(500).json({
+
+        console.log(error);
+
+        res.status(500).json({
+            error,
             ok: false,
-            msg: 'El token no se pudo verificar'
+            msg: 'Token de google no es valido',
+            id_token
         })
     }
 

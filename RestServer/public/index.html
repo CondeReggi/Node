@@ -29,10 +29,10 @@
       data-logo_alignment="left"
     ></div>
 
+    <button id="google_sign_out" >Sing Out</button>
+
     <script>
       function handleCredentialResponse(response) {
-
-
         const body = {
           id_token : response.credential
         }
@@ -47,14 +47,28 @@
           .then( resp => resp.json())
           .then( resp => {
             console.log(resp)
+            localStorage.setItem( 'email' , resp.usuario.correo ) // Almacenar en el localStorage
           })
           .catch( console.warn )
 
          // decodeJwtResponse() is a custom function defined by you
          // to decode the credential response.
-        //  const responsePayload = decodeJwtResponse(response.credential);
+         //  const responsePayload = decodeJwtResponse(response.credential);
     
          console.log(response.credential);
+      }
+
+      const boton = document.getElementById('google_sign_out')
+      boton.onclick = () => {
+        console.log( google.accounts.id )
+        google.accounts.id.disableAutoSelect()
+
+        google.accounts.id.revoke( localStorage.getItem( 'email' ) , (done) => {
+
+          localStorage.clear(); //Limpiar el localStorage
+          location.reload(); //Refresh la pagina
+        } )
+
       }
     </script>
 
