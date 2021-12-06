@@ -18,4 +18,13 @@ const CategoriaSchema = Schema({
     }
 });
 
+CategoriaSchema.methods.toJSON = function() {
+    //De el objeto CategoriaSchema, tomo la version y la contraseña (los quito)
+    //Y todo el resto de elementos del json ...user lo retorno, en consecuencia a la bd le paso el modelo sin la pass y la version
+    
+    const { __v , estado, ...categoria } = this.toObject();
+    return categoria
+}
+
+
 module.exports = model( 'Categoria' , CategoriaSchema )

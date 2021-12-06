@@ -29,7 +29,8 @@ const existeUserId = async ( id ) => {
 
 const existeCategoria = async ( id ) => {
     const existCategoria = await Categoria.findById( id ) 
-    if ( !existCategoria ) {
+
+    if ( !existCategoria || !existCategoria.estado ) {
         throw new Error(`La categoria con id: ${ id } no existe`)
     }
 }

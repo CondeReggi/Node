@@ -31,6 +31,7 @@ router.post('/', [
 
 // Actualizar segun id - privado - cualquiera con token valido
 router.put('/:id', [
+    validarJwt,
     check('id', 'No es un id valido').isMongoId(),
     check('id').custom( existeCategoria ),
     validarCampos
@@ -38,6 +39,8 @@ router.put('/:id', [
 
 // Borrar una cateogira - Si es admin
 router.delete('/:id', [
+    validarJwt,
+    esAdminRole,
     check('id', 'No es un id valido').isMongoId(),
     check('id').custom( existeCategoria ),
     validarCampos
