@@ -42,6 +42,8 @@ const obtenerProductos = async ( req , res = response ) => { // Salio bien
             .limit( parseInt(limite) )
     ])
 
+    // const contenedor = document.getElementById('contenedor');
+
     res.status(201).json({
         msg: 'Fue un exito',
         productos
@@ -94,6 +96,8 @@ const actualizarProducto = async ( req , res = response ) => {
         producto
     })
 }
+
+// Borrar Producto
 
 const borrarProducto = async ( req , res = response ) => {
 
