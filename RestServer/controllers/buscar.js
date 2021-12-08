@@ -38,6 +38,55 @@ const buscarUsuarios = async ( termino = '' , res = response ) => {
 
 }
 
+const buscarProductos = async ( termino = '' , res = response ) => {
+
+    const esMongoId = await ObjectId.isValid( termino );
+    
+    if ( esMongoId ) {
+        const productos = await Producto.findById( termino )
+
+        return res.status(200).json({
+            results: productos ? [ productos ] : []
+        })
+    }
+
+    const regex = new RegExp( termino , 'i' );
+
+    const productosFind = await Producto.find({
+        nombre: regex
+    })
+
+    return res.status(200).json({
+        results: productosFind
+    })
+
+}
+
+const buscarCategoria = async ( termino = '' , res = response ) => {
+
+    const esMongoId = await ObjectId.isValid( termino );
+    
+    if ( esMongoId ) {
+        const categorias = await Categoria.findById( termino )
+
+        return res.status(200).json({
+            results: categorias ? [ categorias ] : []
+        })
+    }
+
+    const regex = new RegExp( termino , 'i' );
+
+    const categoriasFind = await Categoria.find({
+        nombre: regex
+    })
+
+    return res.status(200).json({
+        results: categoriasFind
+    })
+
+}
+
+
 const buscar = ( req , res = response ) => {
 
     const { coleccion , termino } = req.params;
@@ -53,8 +102,10 @@ const buscar = ( req , res = response ) => {
             buscarUsuarios( termino , res )
         break;
         case 'categoria': 
+            buscarCategoria( termino , res )
         break;
         case 'productos': 
+            buscarProductos( termino , res )
         break;
 
         default:
