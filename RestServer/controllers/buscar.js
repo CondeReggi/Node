@@ -53,6 +53,7 @@ const buscarProductos = async ( termino = '' , res = response ) => {
     const regex = new RegExp( termino , 'i' );
 
     const productosFind = await Producto.find({
+        
         nombre: regex
     })
 
