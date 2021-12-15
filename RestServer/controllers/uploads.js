@@ -67,7 +67,6 @@ const actualizarImagen = async ( req , res = response ) => {
 
     const nombre = await subirArchivo( req.files , undefined , coleccion )
     modelo.img = nombre;
-
     await modelo.save()
 
     res.json({
@@ -78,7 +77,54 @@ const actualizarImagen = async ( req , res = response ) => {
 }
 
 
+const mostrarImagen = async (req, res = response) => {
+
+    const pathNonImage = path.join( __dirname , '../assets/no-image.jpg' ); // Se que esto existe
+
+    const { id , coleccion } = req.params;
+
+    let modelo;
+
+    switch ( coleccion ) {
+        case 'usuarios':
+            modelo = await Usuario.findById( id )
+
+            if ( !modelo ) { // Puede mandar una imagen por defecto
+                return res.status(400).json({
+                    msg: `el id: ${id} , no existe en la coleccion ${ coleccion }`
+                })
+            }
+        break;
+        case 'productos':
+            modelo = await Producto.findById( id )
+
+            if ( !modelo ) {
+                return res.status(400).json({
+                    msg: `el id: ${id} , no existe en el producto ${ coleccion }`
+                })
+            }
+
+        break;
+        default:
+            return res.status(500).json({ msg: 'Se me olvido validarla' });
+    }
+
+    // Limpiar imagenes previas
+
+    if ( modelo.img ) {
+        // Hay que borrar la imagen del servidor
+        const pathImagen = path.join( __dirname , '../uploads' , coleccion , modelo.img );
+
+        if ( fs.existsSync( pathImagen ) ){ //Existe el directorio con la imagen
+            return res.sendFile( pathImagen )
+        }
+    }
+
+    res.sendFile( pathNonImage )
+}
+
 module.exports = {
     cargarArchivo,
-    actualizarImagen
+    actualizarImagen,
+    mostrarImagen
 };
