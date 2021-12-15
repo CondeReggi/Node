@@ -42,7 +42,14 @@ const existeProcuto = async ( id ) => {
     if ( !existeProduct || !existeProduct.estado ) {
         throw new Error(`El producto con id: ${ id } no es valido`)
     }
+}
 
+const coleccionesPermitidas = ( coleccion = '' , coleccionesPermitidas = [] ) => {
+    if ( !coleccionesPermitidas.includes(coleccion) ){
+        throw new Error(`La coleccion ${coleccion} no es valida`)
+    } 
+
+    return true
 }
 
 
@@ -51,5 +58,6 @@ module.exports = {
     emailExiste,
     existeUserId,
     existeCategoria,
-    existeProcuto
+    existeProcuto,
+    coleccionesPermitidas
 }

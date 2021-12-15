@@ -3,7 +3,6 @@ const cors = require('cors');
 const { dbConnection } = require('../database/config');
 const fileUpload = require('express-fileupload')
 
-
 require('dotenv').config();
 
 class Server {
@@ -28,8 +27,6 @@ class Server {
 
         // Rutas de mi aplicacion
         this.routes();
-
-        
     }
 
     async conectarDB(){
@@ -47,9 +44,10 @@ class Server {
         this.app.use( express.static('public') );
 
         //FileUpload - Carga de archivos
-        this.app.use(fileUpload({
+        this.app.use( fileUpload({
             useTempFiles : true,
-            tempFileDir : '/tmp/'
+            tempFileDir : '/tmp/',
+            createParentPath: true
         }));
     }
 
